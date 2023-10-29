@@ -5,6 +5,7 @@
 package com.mercado.quincho.entity;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,7 +33,8 @@ public class Photo {
 
     @Id 
     @GeneratedValue(generator = "uuid") 
-    @GenericGenerator(name = "uuid", strategy = "uuid2") 
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @Column(length = 36) // Cambia la longitud a 36 caracteres para UUID
     private String idPhoto; 
 
     private String mime; 

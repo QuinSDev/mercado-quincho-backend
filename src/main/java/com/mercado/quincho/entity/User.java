@@ -4,6 +4,7 @@
  */
 package com.mercado.quincho.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -36,6 +37,7 @@ public class User {
     @Id 
     @GeneratedValue(generator = "uuid") 
     @GenericGenerator(name = "uuid", strategy = "uuid2") 
+    @Column(length = 36) // Cambia la longitud a 36 caracteres para UUID
     private String idUser; 
 
     @NotEmpty
