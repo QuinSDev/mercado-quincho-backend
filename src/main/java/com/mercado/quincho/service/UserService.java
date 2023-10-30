@@ -65,7 +65,7 @@ public class UserService {
      * @param phoneNumber: Nuevo número de teléfono del usuario.
      * @param cellPhoneNumber: Nuevo número de teléfono celular del usuario.
      * @param email: Dirección de correo electrónico del usuario para
-     * identificarlo.
+     *               identificarlo.
      * @param password: Nueva contraseña del usuario.
      */
     @Transactional
@@ -77,7 +77,7 @@ public class UserService {
         Optional<User> response = userRepository.findByEmail(email);
         if (response.isPresent()) {
             /* Si se encuentra un usuario, actualiza sus detalles según los 
-            nuevos valores.*/
+               nuevos valores.*/
             User user = response.get();
             user.setName(name);
             user.setLastName(lastName);
@@ -96,12 +96,25 @@ public class UserService {
      * sistema.
      * 
      * @return Una lista de objetos de tipo User que representa a todos los 
-     * usuarios.
+     *         usuarios.
      */
     @Transactional()
     public List<User> listUsers() {
         // Utiliza el repositorio para recuperar todos los usuarios registrados.
         return userRepository.findAll();
+        
+    }
+    
+    /**
+     * Elimina un usuario del sistema mediante su identificador único.
+     * 
+     * @param idUser: El identificador único del usuario que se va a eliminar.
+     */
+    @Transactional
+    public void deleteUser(String idUser) {
+        /* Utiliza el repositorio para eliminar el usuario con el identificador
+           único.*/
+        userRepository.deleteById(idUser);
         
     }
 }
