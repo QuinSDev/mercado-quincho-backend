@@ -3,6 +3,7 @@ package com.mercado.quincho.service;
 import com.mercado.quincho.entity.Role;
 import com.mercado.quincho.entity.User;
 import com.mercado.quincho.repository.UserRepository;
+import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,5 +89,19 @@ public class UserService {
 
             userRepository.save(user);
         }
+    }
+    
+    /**
+     * Recupera y devuelve una lista de todos los usuarios registrados en el
+     * sistema.
+     * 
+     * @return Una lista de objetos de tipo User que representa a todos los 
+     * usuarios.
+     */
+    @Transactional()
+    public List<User> listUsers() {
+        // Utiliza el repositorio para recuperar todos los usuarios registrados.
+        return userRepository.findAll();
+        
     }
 }
