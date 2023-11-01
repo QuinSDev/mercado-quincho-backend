@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mercado.quincho.entity;
 
 import javax.persistence.Column;
@@ -55,5 +51,5 @@ public class User {
 
     @OneToOne 
     @JoinColumn(name = "id_photo") 
-    private Photo photo; 
+    private PhotoUser photo; 
 }
