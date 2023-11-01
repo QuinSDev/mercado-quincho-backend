@@ -31,17 +31,16 @@ public class UserService {
      * @param lastName: Apellido del usuario.
      * @param address: Dirección del usuario.
      * @param phoneNumber: Número de telefóno del usuario.
-     * @param cellPhoneNumber: Número de telefóno celular del usuario.
      * @param email: Correo electrónico del usuario(debe ser único).
      * @param password: Contraseña del usuario.
      */
     @Transactional
     public void registerUser(String name, String lastName,
-            String address, String phoneNumber, String cellPhoneNumber,
-            String email, String password) throws MyException {
+            String address, String phoneNumber,String email, String password) 
+            throws MyException {
         
         try {
-            validateUser(name, lastName, address, phoneNumber, cellPhoneNumber, email, password);
+            validateUser(name, lastName, address, phoneNumber, email, password);
             
             // Crea una instancia del usuario y establece los detalles proporcionados.
             User user = new User();
@@ -50,7 +49,6 @@ public class UserService {
             user.setLastName(lastName);
             user.setAddress(address);
             user.setPhoneNumber(phoneNumber);
-            user.setCellPhoneNumber(cellPhoneNumber);
             user.setEmail(email);
             user.setPassword(new BCryptPasswordEncoder().encode(password));
             user.setRol(Role.CUSTOMER);
@@ -70,15 +68,13 @@ public class UserService {
      * @param lastName: Nuevo apellido del usuario.
      * @param address: Nueva dirección del usuario.
      * @param phoneNumber: Nuevo número de teléfono del usuario.
-     * @param cellPhoneNumber: Nuevo número de teléfono celular del usuario.
      * @param email: Dirección de correo electrónico del usuario para
      * identificarlo.
      * @param password: Nueva contraseña del usuario.
      */
     @Transactional
     public void updateUser(String name, String lastName,
-            String address, String phoneNumber, String cellPhoneNumber,
-            String email, String password) {
+            String address, String phoneNumber, String email, String password) {
 
         // Busca un usuario existente por su dirección de correo electrónico
         Optional<User> response = userRepository.findByEmail(email);
@@ -90,7 +86,6 @@ public class UserService {
             user.setLastName(lastName);
             user.setAddress(address);
             user.setPhoneNumber(phoneNumber);
-            user.setCellPhoneNumber(cellPhoneNumber);
             user.setEmail(email);
             user.setPassword(new BCryptPasswordEncoder().encode(password));
 
@@ -134,7 +129,6 @@ public class UserService {
      * @param lastName: El apellido del usuario.
      * @param address: La dirección del usuario.
      * @param phoneNumber: El número de teléfono del usuario.
-     * @param cellPhoneNumber: El número de celular del usuario.
      * @param email: El correo electrónico del usuario.
      * @param password: La contraseña del usuario.
      * @throws MyException: Se lanza si se encuentran problemas en los datos,
@@ -142,8 +136,7 @@ public class UserService {
      */
     @Transactional
     public void validateUser(String name, String lastName, String address,
-            String phoneNumber, String cellPhoneNumber, String email,
-            String password) throws MyException {
+            String phoneNumber,String email, String password) throws MyException {
 
         if (name.isEmpty() || name == null) {
             throw new MyException("el nombre no puede ser nulo o estar vacío");
@@ -161,10 +154,7 @@ public class UserService {
             throw new MyException("el número de teléfono no puede ser nulo o "
                     + "estar vacío");
         }
-        if (cellPhoneNumber.isEmpty() || cellPhoneNumber == null) {
-            throw new MyException("el número de celular no puede ser nulo o "
-                    + "estar vacío");
-        }
+        
         if (email.isEmpty() || email == null) {
             throw new MyException("el email no puede ser nulo o "
                     + "estar vacío");
