@@ -26,7 +26,7 @@ import org.hibernate.annotations.GenericGenerator;
  * Esta clase define la estructura de una reserva, incluyendo sus atributos
  * como fecha de inicio y fecha fin de la reserva, la hora del check-in
  * y del check-out, el total a pagar de la reserva,el quincho asociado con la 
- * reserva:representa una relacion Many-to-One con la entidad Quincho
+ * reserva:representa una relación Many-to-One con la entidad Quincho
  * 
  *
  * @author monte
