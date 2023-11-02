@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mercado.quincho.entity;
 
 import javax.persistence.Basic;
@@ -18,18 +14,19 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- *
- * @author erik_
- * @version 3.4.1 jdk11 28/10/2023
- * Entidad creada con el fin de ingresar archivos multimedia con Spring Boot
- * "En este caso imagenes" 
+ * Entidad que representa una foto de usuario en el sistema.
+ * Esta clase define la estructura de una foto de usuario, incluyendo sus 
+ * atributos como el identificador único, el tipo MIME, el nombre de la foto y
+ * su contenido en formato de bytes.
+ * 
+ * @author QuinSDev
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Photo {
+public class PhotoUser {
 
     @Id 
     @GeneratedValue(generator = "uuid") 
@@ -38,7 +35,6 @@ public class Photo {
     private String idPhoto; 
 
     private String mime; 
-
     private String name; 
 
     @Lob 

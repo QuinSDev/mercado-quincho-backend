@@ -1,38 +1,43 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mercado.quincho.entity;
 
+import java.util.Collection;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
- *
- * @author erik_
- * @version 3.4.1 jdk11 28/10/2023
- * Entidad moldeada al UML de Usuario con uso de Spring Boot y
- * sus respectivos atributos 
+ * Entidad que representa un usuario en el sistema.
+ * Esta clase define la estructura de un usuario, incluyendo sus atributos
+ * como nombre, apellido, dirección, número de teléfono, correco eletrónico, rol
+ * y contraseña. También se relaciona con una foto de perfil a través de una 
+ * relación de uno a uno.
  * 
+ * Implementa la interfaz UserDetails de Spring Secuiry para habilitar la 
+ * autenticación y autorización de usuarios en la aplicación.
  * 
+ * @author QuinSDev
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class User {
+public class User implements UserDetails{
 
     @Id 
     @GeneratedValue(generator = "uuid") 
@@ -40,26 +45,52 @@ public class User {
     @Column(length = 36) // Cambia la longitud a 36 caracteres para UUID
     private String idUser; 
 
-    @NotEmpty
     private String name; 
-    @NotEmpty
     private String lastName; 
-    @NotEmpty
     private String address; 
-    @NotEmpty
-    private String phoneNumber; 
-    @NotEmpty
-    private String cellPhoneNumber; 
+    private String phoneNumber;
 
     @Email
-    @NotEmpty
-    private String email; 
-    @NotEmpty
-    private Role rol; 
-    @NotEmpty
+    private String email;
+    
+    @Enumerated(EnumType.STRING)
+    private Role role; 
     private String password;
 
     @OneToOne 
-    @JoinColumn(name = "photo_id") 
-    private Photo photo; 
+    @JoinColumn(name = "id_photo") 
+    private PhotoUser photo; 
+    
+    /* Métodos requeridos por UserDetails para la autenticación y autorización
+    de Spring Security */
+    
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority((role.name())));
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
