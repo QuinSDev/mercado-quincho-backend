@@ -4,7 +4,7 @@
  */
 package com.mercado.quincho.entity;
 
-import java.sql.Time;
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,19 +19,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-
-
 /**
- * Entidad que representa una reserva en el sistema.
- * Esta clase define la estructura de una reserva, incluyendo sus atributos
- * como fecha de inicio y fecha fin de la reserva, la hora del check-in
- * y del check-out, el total a pagar de la reserva,el quincho asociado con la 
- * reserva:representa una relación Many-to-One con la entidad Quincho
- * 
+ * Entidad que representa una reserva en el sistema. Esta clase define la
+ * estructura de una reserva, incluyendo sus atributos como fecha de inicio y
+ * fecha fin de la reserva, la hora del check-in y del check-out, el total a
+ * pagar de la reserva,el quincho asociado con la reserva:representa una
+ * relación Many-to-One con la entidad Quincho
+ *
  *
  * @author monte
  */
-
 @Entity
 @Data
 @NoArgsConstructor
@@ -50,18 +47,16 @@ public class Reservation {
     @Temporal(TemporalType.DATE)
     private Date endDate;
 
-    @Temporal(TemporalType.TIME)
-    private Time checkIn;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar checkIn;
 
-    @Temporal(TemporalType.TIME)
-    private Time checkOut;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar checkOut;
 
     private Double totalPayment;
 
     @ManyToOne
     @JoinColumn(name = "idQuincho")
     private Quincho idQuincho;
-
-   
 
 }
