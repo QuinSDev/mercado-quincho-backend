@@ -40,6 +40,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain secutiryFilterChain(HttpSecurity http) throws Exception {
         return http
+                .cors().and()
                 // Desactiva la protección CSRF (Cross-Site Request Forgery).
                 .csrf(csrf -> 
                     csrf
