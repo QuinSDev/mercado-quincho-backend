@@ -50,7 +50,7 @@ public class AppConfiguration {
         
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         
-        corsConfiguration.addAllowedOriginPattern("http://localhost:5173");
+        corsConfiguration.addAllowedOrigin("http://localhost:5173");
         
         corsConfiguration.addAllowedMethod(HttpMethod.GET);
         corsConfiguration.addAllowedMethod(HttpMethod.POST);
