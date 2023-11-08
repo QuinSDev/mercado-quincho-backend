@@ -49,7 +49,7 @@ public class User implements UserDetails{
     private String lastName; 
     private String address; 
     private String phoneNumber;
-
+    
     @Email
     private String email;
     
