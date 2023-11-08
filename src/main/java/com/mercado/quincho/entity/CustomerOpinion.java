@@ -29,7 +29,8 @@ public class CustomerOpinion {
     @GeneratedValue(generator = "uuid") 
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(length = 36) // Cambia la longitud a 36 caracteres para UUID    
-    private String idCustomerClient;
+    private String idCustomerOpinion;
+    
     private String multimediaOpinion;
     private int qualification;
     private String comment;    
