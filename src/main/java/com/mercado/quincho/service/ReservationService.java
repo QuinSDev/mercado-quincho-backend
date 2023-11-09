@@ -7,6 +7,7 @@ package com.mercado.quincho.service;
 import com.mercado.quincho.entity.Quincho;
 import com.mercado.quincho.entity.Reservation;
 import com.mercado.quincho.exception.MyException;
+import com.mercado.quincho.repository.ReservationRepository;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
