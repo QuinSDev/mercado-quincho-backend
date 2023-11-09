@@ -1,5 +1,6 @@
 package com.mercado.quincho.service;
 
+import com.mercado.quincho.entity.PhotoUser;
 import com.mercado.quincho.entity.Role;
 import com.mercado.quincho.entity.User;
 import com.mercado.quincho.exception.MyException;
@@ -37,6 +38,9 @@ public class AuthService {
 
     @Autowired
     private final PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private final PhotoUserService photoUserService;
 
     private final AuthenticationManager authenticationManager;
 
@@ -105,6 +109,8 @@ public class AuthService {
             }
 
             validUser(request);
+            
+            PhotoUser photoUser = photoUserService.savePhotoUser(request.getFile());
 
             // Crea un objeto User con los datos proporcionados por el usuario.
             User user = User.builder()
@@ -115,6 +121,7 @@ public class AuthService {
                     .address(request.getAddress())
                     .phoneNumber(request.getPhoneNumber())
                     .role(Role.CUSTOMER)
+                    .photo(photoUser)
                     .build();
 
             // Guarda el usuario en la base de datos.
