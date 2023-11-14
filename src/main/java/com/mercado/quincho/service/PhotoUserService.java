@@ -3,6 +3,7 @@ package com.mercado.quincho.service;
 import com.mercado.quincho.entity.PhotoUser;
 import com.mercado.quincho.exception.MyException;
 import com.mercado.quincho.repository.PhotoUserRepository;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,5 +49,35 @@ public class PhotoUserService {
         }
         return null;
         
+    }
+    
+    @Transactional
+    public PhotoUser updatePhotoUser(MultipartFile file, String idPhoto) {
+        
+        if (file != null) {
+            try {
+                
+                PhotoUser photoUser = new PhotoUser();
+                
+                if (idPhoto != null) {
+                    Optional<PhotoUser> response = photoUserRepository.findById(idPhoto);
+                    
+                    if (response.isPresent()) {
+                        photoUser = response.get();
+                    }
+                    
+                }
+                
+                photoUser.setMime(file.getContentType());
+                photoUser.setName(file.getOriginalFilename());
+                photoUser.setContent(file.getBytes());
+                
+                return photoUserRepository.save(photoUser);
+                
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
+        }
+        return null;
     }
 }

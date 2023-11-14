@@ -1,8 +1,10 @@
 package com.mercado.quincho.request;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -22,4 +24,5 @@ public class RegisterQuinchoRequest {
     int numBedroom;
     int numBed;
     int numBathroom;
+    List<MultipartFile> files;
 }
