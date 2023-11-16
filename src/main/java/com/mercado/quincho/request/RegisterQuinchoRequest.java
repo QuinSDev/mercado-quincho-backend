@@ -7,7 +7,10 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- *
+ * Clase que representa la solicitud de registro de un Quincho.
+ * Contiene los campos necesarios para registrar la información de un Quincho 
+ * en el sistema.
+ * 
  * @author QuinSDev
  */
 @Data
