@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- *
+ * Controlador que gestiona las operaciones relacionadas con las fotos de quinchos.
+ * Proporciona un endpoint para obtener las fotos de un quincho específico.
+ * 
  * @author QuinSDev
  */
 @Controller
@@ -27,33 +29,36 @@ public class PhotoQuinchoController {
 
     @Autowired
     private final QuinchoService quinchoService;
-
+    
+    /**
+     * Obtiene las fotos de un quincho identificado por su ID.
+     * 
+     * @param id: El ID único del quincho del que se quiere obtener las fotos.
+     * @return ResponsityEntity con las fotos del quinchos en formato arreglo
+     * de bytes.
+     */
     @GetMapping("/fotos/{id}")
     public ResponseEntity<byte[]> getQuinchoPhotos(@PathVariable String id) {
-        // Step 1: Obtain the Quincho
+        
         Optional<Quincho> quincho = quinchoService.getOne(id);
 
-        // Step 2: Obtain the Quincho's Photos
         if (quincho.isPresent()) {
             Quincho quinchoEntity = quincho.get();
             System.out.println("Quincho: " + quinchoEntity);
-            // Assuming you have a method like getPhotos() in Quincho class
-            // Adjust this based on the actual structure of your Quincho class
             List<PhotoQuincho> quinchoPhotos = quincho.get().getPhotos();
 
-            // Assuming you want to return the first photo, adjust as needed
             if (!quinchoPhotos.isEmpty()) {
                 PhotoQuincho quinchoPhoto = quinchoPhotos.get(0);
-
-                // Step 3: Prepare the HTTP Response
+                
+                // Configura los encabezados para la respuesta HTTP
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.IMAGE_JPEG);
 
-                return new ResponseEntity<>(quinchoPhoto.getContent(), headers, HttpStatus.OK);
+                return new ResponseEntity<>(quinchoPhoto.getContent(), headers, 
+                        HttpStatus.OK);
             }
         }
 
-        // Return a 404 response if Quincho or Photo is not found
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
