@@ -1,14 +1,15 @@
 package com.mercado.quincho.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,7 +36,7 @@ public class Quincho implements Serializable{
     @GeneratedValue(generator = "uuid") 
     @GenericGenerator(name = "uuid", strategy = "uuid2") 
     @Column(length = 36) // Cambia la longitud a 36 caracteres para UUID
-    private String idQuincho;
+    private String id;
     
     private String nameQuincho;
     private String location;
@@ -48,7 +49,21 @@ public class Quincho implements Serializable{
     private int numBathroom;
     
     @OneToMany
-    @JoinColumn(name = "id_photo") 
+    @JoinColumn(name = "quincho_id") 
+    @JsonManagedReference
     private List<PhotoQuincho> photos;
+    
+    @ManyToOne
+    @JsonBackReference
+    private User user;
+    
+    @Override
+    public String toString() {
+        return "Quincho{" +
+                "id='" + id + '\'' +
+                ", nameQuincho='" + nameQuincho + '\'' +
+                // No imprimimos 'photos' para evitar la recursión
+                '}';
+    }
     
 }
