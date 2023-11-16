@@ -1,5 +1,6 @@
 package com.mercado.quincho.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -44,6 +45,17 @@ public class PhotoQuincho implements Serializable {
     private byte[] content;
 
     @ManyToOne
+    @JsonBackReference
     private Quincho quincho;
+    
+    @Override
+    public String toString() {
+        return "PhotoQuincho{" +
+                "idPhotoQuincho='" + idPhotoQuincho + '\'' +
+                ", mime='" + mime + '\'' +
+                ", name='" + name + '\'' +
+                // No imprimimos 'quincho' para evitar la recursión
+                '}';
+    }
 
 }
