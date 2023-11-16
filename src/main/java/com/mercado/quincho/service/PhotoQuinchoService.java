@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- *
+ * Servicio que gestiona las operaciones relacionadas con las fotos de los quinchos.
+ * 
  * @author QuinSDev
  */
 @Service
@@ -20,7 +21,13 @@ public class PhotoQuinchoService {
 
     @Autowired
     private final PhotoQuinchoRepository photoQuinchoRepository;
-
+    
+    /**
+     * Guarda las fotos de quinchos en la base de datos.
+     *
+     * @param files: Lista de archivos de imágenes (fotos) de quinchos a guardar.
+     * @return Lista de fotos de quinchos guardadas en la base de datos.
+     */
     public List<PhotoQuincho> savePhotoQuincho(List<MultipartFile> files) {
         List<PhotoQuincho> savedPhotos = new ArrayList();
 
@@ -45,10 +52,16 @@ public class PhotoQuinchoService {
         return null;
 
     }
-
+    
+    /**
+     * Obtiene las fotos de un quincho por su ID.
+     *
+     * @param idQuincho: El ID del quincho del que se quieren obtener las fotos.
+     * @return Lista de fotos del quincho identificado por el ID.
+     */
     @Transactional
     public List<PhotoQuincho> getPhotosByQuinchoId(String idQuincho) {
-        return photoQuinchoRepository.findByQuinchoIdQuincho(idQuincho);
+        return photoQuinchoRepository.findByQuinchoId(idQuincho);
     }
 
 }
