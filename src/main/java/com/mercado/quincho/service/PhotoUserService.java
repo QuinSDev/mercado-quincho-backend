@@ -51,6 +51,13 @@ public class PhotoUserService {
         
     }
     
+    /**
+     * Actualiza la información de la foto del usuario en la base de datos.
+     * 
+     * @param file: El nuevo archivo de la foto del usuario.
+     * @param idPhoto: El ID de la foto del usuario a actualizar.
+     * @return La entidad PhotoUser actualizada en la base de datos.
+     */
     @Transactional
     public PhotoUser updatePhotoUser(MultipartFile file, String idPhoto) {
         
