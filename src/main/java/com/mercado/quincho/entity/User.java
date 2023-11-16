@@ -1,5 +1,6 @@
 package com.mercado.quincho.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -43,7 +45,7 @@ public class User implements UserDetails{
     @GeneratedValue(generator = "uuid") 
     @GenericGenerator(name = "uuid", strategy = "uuid2") 
     @Column(length = 36) // Cambia la longitud a 36 caracteres para UUID
-    private String idUser; 
+    private String id; 
 
     private String name; 
     private String lastName; 
@@ -60,6 +62,11 @@ public class User implements UserDetails{
     @OneToOne 
     @JoinColumn(name = "id_photo") 
     private PhotoUser photo; 
+    
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference
+    private List<Quincho> quincho;
     
     /* Métodos requeridos por UserDetails para la autenticación y autorización
     de Spring Security */
