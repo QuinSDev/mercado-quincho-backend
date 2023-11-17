@@ -2,22 +2,26 @@ package com.mercado.quincho.service;
 
 import com.mercado.quincho.entity.PhotoQuincho;
 import com.mercado.quincho.entity.Quincho;
+import com.mercado.quincho.entity.Role;
+import com.mercado.quincho.entity.User;
 import com.mercado.quincho.exception.MyException;
 import com.mercado.quincho.repository.QuinchoRepository;
+import com.mercado.quincho.repository.UserRepository;
 import com.mercado.quincho.request.RegisterQuinchoRequest;
 import com.mercado.quincho.response.QuinchoResponse;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
- *
+ * Servicio para gestionar operaciones relacionadas con los quinchos.
+ * Se encarga de funciones como registrar un quincho, obtener información
+ * de un quincho y listar todos los quinchos disponibles.
+ * 
  * @author QuinSDev
  */
 @Service
@@ -30,57 +34,90 @@ public class QuinchoService {
     @Autowired
     private final PhotoQuinchoService photoQuinchoService;
 
+    @Autowired
+    private final UserRepository userRepository;
+    
+    /**
+     * Registra un nuevo quincho en el sistema.
+     * 
+     * @param request La solicitud de registro del quincho.
+     * @param id El ID del usuario dueño del quincho.
+     * @return La respuesta del registro del quincho.
+     */
     @Transactional
-    public QuinchoResponse registerQuincho(RegisterQuinchoRequest request) {
+    public QuinchoResponse registerQuincho(RegisterQuinchoRequest request, String id) {
         try {
-            validQuincho(request);
+            Optional<User> response = userRepository.findByEmail(id);
 
-            List<PhotoQuincho> photoQuincho = photoQuinchoService.savePhotoQuincho(request.getFiles());
+            if (response.isPresent()) {
 
-            Quincho quincho = new Quincho();
+                User user = response.get();
 
-            quincho.setNameQuincho(request.getNameQuincho());
-            quincho.setDescription(request.getDescription());
-            quincho.setLocation(request.getLocation());
-            quincho.setTypeQuincho(request.getTypeQuincho());
-            quincho.setNumBathroom(request.getNumBathroom());
-            quincho.setNumBed(request.getNumBed());
-            quincho.setNumBedroom(request.getNumBedroom());
-            quincho.setNumGuest(request.getNumGuest());
-            quincho.setPrice(request.getPrice());
-            quincho.setPhotos(photoQuincho);
+                validQuincho(request);
 
-            quinchoRepository.save(quincho);
+                List<PhotoQuincho> photoQuincho = photoQuinchoService.savePhotoQuincho(request.getFiles());
 
-            return QuinchoResponse.builder()
-                    .msg("Registro éxitoso")
-                    .build();
+                Quincho quincho = new Quincho();
+
+                quincho.setNameQuincho(request.getNameQuincho());
+                quincho.setDescription(request.getDescription());
+                quincho.setLocation(request.getLocation());
+                quincho.setTypeQuincho(request.getTypeQuincho());
+                quincho.setNumBathroom(request.getNumBathroom());
+                quincho.setNumBed(request.getNumBed());
+                quincho.setNumBedroom(request.getNumBedroom());
+                quincho.setNumGuest(request.getNumGuest());
+                quincho.setPrice(request.getPrice());
+                quincho.setPhotos(photoQuincho);
+
+                quinchoRepository.save(quincho);
+
+                List<Quincho> quinchoList = new ArrayList<>();
+                quinchoList.add(quincho);
+                user.setQuincho(quinchoList);
+                user.setRole(Role.OWNER);
+
+                return QuinchoResponse.builder()
+                        .msg("Registro éxitoso")
+                        .build();
+            }
 
         } catch (MyException ex) {
             return new QuinchoResponse("Error de registro: " + ex.getMessage());
         }
-
+        return null;
     }
-
+    
+    /**
+     * Obtiene un quincho por su ID.
+     * 
+     * @param idQuincho: El ID del quincho que se quiere obtener.
+     * @return Un objeto Optional que puede contener el quincho si se encuentra, o vacío si no.
+     */
+    @Transactional
     public Optional<Quincho> getOne(String idQuincho) {
         Optional<Quincho> quincho = quinchoRepository.findById(idQuincho);
-        if (quincho.isPresent()) {
-            // Log: Quincho found
-            System.out.println("Quincho found: " + quincho.get());
-        } else {
-            // Log: Quincho not found
-            System.out.println("Quincho not found for id: " + idQuincho);
-        }
         return quincho;
     }
-
+    
+    /**
+     * Lista todos los quinchos disponibles.
+     * 
+     * @return Una lista de todos los quinchos existentes en el sistema.
+     */
     @Transactional
     public List<Quincho> listQuincho() {
         List<Quincho> quinchos = quinchoRepository.findAll();
-        
+
         return quinchos;
     }
-
+    
+    /**
+     * Valida los datos de registro del quincho.
+     * 
+     * @param request: La solicitud de registro del quincho.
+     * @throws MyException Si algún dato del quincho es incorrecto o está ausente.
+     */
     @Transactional
     public void validQuincho(RegisterQuinchoRequest request) throws MyException {
 
