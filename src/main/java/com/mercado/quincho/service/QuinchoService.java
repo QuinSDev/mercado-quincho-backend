@@ -18,10 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Servicio para gestionar operaciones relacionadas con los quinchos.
- * Se encarga de funciones como registrar un quincho, obtener información
- * de un quincho y listar todos los quinchos disponibles.
- * 
+ * Servicio para gestionar operaciones relacionadas con los quinchos. Se encarga
+ * de funciones como registrar un quincho, obtener información de un quincho y
+ * listar todos los quinchos disponibles.
+ *
  * @author QuinSDev
  */
 @Service
@@ -36,10 +36,10 @@ public class QuinchoService {
 
     @Autowired
     private final UserRepository userRepository;
-    
+
     /**
      * Registra un nuevo quincho en el sistema.
-     * 
+     *
      * @param request La solicitud de registro del quincho.
      * @param id El ID del usuario dueño del quincho.
      * @return La respuesta del registro del quincho.
@@ -69,6 +69,7 @@ public class QuinchoService {
                 quincho.setNumGuest(request.getNumGuest());
                 quincho.setPrice(request.getPrice());
                 quincho.setPhotos(photoQuincho);
+                quincho.setUser(user);
 
                 quinchoRepository.save(quincho);
 
@@ -87,22 +88,23 @@ public class QuinchoService {
         }
         return null;
     }
-    
+
     /**
      * Obtiene un quincho por su ID.
-     * 
+     *
      * @param idQuincho: El ID del quincho que se quiere obtener.
-     * @return Un objeto Optional que puede contener el quincho si se encuentra, o vacío si no.
+     * @return Un objeto Optional que puede contener el quincho si se encuentra,
+     * o vacío si no.
      */
     @Transactional
     public Optional<Quincho> getOne(String idQuincho) {
         Optional<Quincho> quincho = quinchoRepository.findById(idQuincho);
         return quincho;
     }
-    
+
     /**
      * Lista todos los quinchos disponibles.
-     * 
+     *
      * @return Una lista de todos los quinchos existentes en el sistema.
      */
     @Transactional
@@ -111,12 +113,13 @@ public class QuinchoService {
 
         return quinchos;
     }
-    
+
     /**
      * Valida los datos de registro del quincho.
-     * 
+     *
      * @param request: La solicitud de registro del quincho.
-     * @throws MyException Si algún dato del quincho es incorrecto o está ausente.
+     * @throws MyException Si algún dato del quincho es incorrecto o está
+     * ausente.
      */
     @Transactional
     public void validQuincho(RegisterQuinchoRequest request) throws MyException {
