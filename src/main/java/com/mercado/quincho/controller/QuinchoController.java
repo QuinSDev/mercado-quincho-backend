@@ -33,14 +33,14 @@ public class QuinchoController {
      * Registra un quincho con el ID del usuario proporcionado.
      * 
      * @param request: Solicitud de registro del quincho
-     * @param idUser: Identificador único del usuario
+     * @param id: Identificador único del usuario
      * @return Responsitycon la respuesta del registro del quincho
      */
-    @PostMapping(value = "register/{idUser}")
+    @PostMapping(value = "register/{id}")
     public ResponseEntity<QuinchoResponse> registerQuincho(RegisterQuinchoRequest request,
-            @PathVariable String idUser) {
+            @PathVariable String id) {
         try {
-            return ResponseEntity.ok(quinchoService.registerQuincho(request, idUser));
+            return ResponseEntity.ok(quinchoService.registerQuincho(request, id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new QuinchoResponse(
                     "Error al registrar el quincho: " + e.getMessage()));
