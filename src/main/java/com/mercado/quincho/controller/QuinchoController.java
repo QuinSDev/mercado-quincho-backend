@@ -40,11 +40,11 @@ public class QuinchoController {
      * @return ResponseEntity con la respuesta del registro del quincho y el 
      * estado HTTP correspondiente
      */
-    @PostMapping(value = "register/{idUser}")
+    @PostMapping(value = "register/{id}")
     public ResponseEntity<QuinchoResponse> registerQuincho(RegisterQuinchoRequest request,
-            @PathVariable String idUser) {
+            @PathVariable String id) {
         try {
-            return ResponseEntity.ok(quinchoService.registerQuincho(request, idUser));
+            return ResponseEntity.ok(quinchoService.registerQuincho(request, id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new QuinchoResponse(
                     "Error al registrar el quincho: " + e.getMessage()));
