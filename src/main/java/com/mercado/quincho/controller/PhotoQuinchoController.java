@@ -43,8 +43,7 @@ public class PhotoQuinchoController {
         Optional<Quincho> quincho = quinchoService.getOne(id);
 
         if (quincho.isPresent()) {
-            Quincho quinchoEntity = quincho.get();
-            System.out.println("Quincho: " + quinchoEntity);
+            
             List<PhotoQuincho> quinchoPhotos = quincho.get().getPhotos();
 
             if (!quinchoPhotos.isEmpty()) {
