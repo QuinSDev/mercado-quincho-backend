@@ -37,11 +37,14 @@ public class QuinchoService {
     @Autowired
     private final UserRepository userRepository;
 
+    @Autowired
+    private final UserService userService;
+
     /**
      * Registra un nuevo quincho en el sistema.
      *
-     * @param request La solicitud de registro del quincho.
-     * @param id El ID del usuario dueño del quincho.
+     * @param request: La solicitud de registro del quincho.
+     * @param id: El ID del usuario dueño del quincho.
      * @return La respuesta del registro del quincho.
      */
     @Transactional
@@ -88,6 +91,61 @@ public class QuinchoService {
         }
         return null;
     }
+    
+    /**
+     * Actualiza la información de un quincho existente en el sistema.
+     *
+     * @param request: Solicitud de actualización del quincho.
+     * @param idQuincho: ID del quincho que se desea actualizar.
+     * @return Respuesta de la actualización del quincho.
+     */
+    @Transactional
+    public QuinchoResponse updateQuincho(RegisterQuinchoRequest request, String idQuincho) {
+
+        try {
+
+            Optional<Quincho> quinchoResponse = getOne(idQuincho);
+
+            if (quinchoResponse.isPresent()) {
+
+                Quincho quincho = quinchoResponse.get();
+                List<PhotoQuincho> photoQuincho = quincho.getPhotos();
+                List<PhotoQuincho> newPhotos = new ArrayList();
+
+                if (request.getFiles() != null && !request.getFiles().isEmpty()) {
+
+                    newPhotos = photoQuinchoService.savePhotoQuincho(request.getFiles());
+                    photoQuincho.addAll(newPhotos);
+
+                }
+
+                quincho.setNameQuincho(request.getNameQuincho());
+                quincho.setDescription(request.getDescription());
+                quincho.setLocation(request.getLocation());
+                quincho.setPrice(request.getPrice());
+                quincho.setNumBathroom(request.getNumBathroom());
+                quincho.setNumBed(request.getNumBed());
+                quincho.setNumBedroom(request.getNumBedroom());
+                quincho.setNumGuest(request.getNumGuest());
+                quincho.setTypeQuincho(request.getTypeQuincho());
+                quincho.setPhotos(photoQuincho);
+
+                //quinchoRepository.save(quincho);
+
+                return QuinchoResponse.builder()
+                        .msg("Actualización exitosa")
+                        .build();
+
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new QuinchoResponse("Error de registro: " + ex.getMessage());
+        }
+
+        return null;
+
+    }
 
     /**
      * Obtiene un quincho por su ID.
@@ -110,6 +168,20 @@ public class QuinchoService {
     @Transactional
     public List<Quincho> listQuincho() {
         List<Quincho> quinchos = quinchoRepository.findAll();
+
+        return quinchos;
+    }
+    
+     /**
+     * Lista los quinchos asociados a un usuario específico por su ID.
+     *
+     * @param id: ID del usuario para obtener sus quinchos asociados.
+     * @return Lista de quinchos del usuario.
+     */
+    public List<Quincho> listQuinchoUser(String id) {
+        User user = userService.getOne(id);
+
+        List<Quincho> quinchos = user.getQuincho();
 
         return quinchos;
     }
