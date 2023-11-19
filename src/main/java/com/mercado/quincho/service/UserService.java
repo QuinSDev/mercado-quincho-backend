@@ -1,17 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mercado.quincho.service;
 
 import com.mercado.quincho.entity.PhotoUser;
-import com.mercado.quincho.entity.Role;
 import com.mercado.quincho.entity.User;
 import com.mercado.quincho.exception.MyException;
 import com.mercado.quincho.repository.UserRepository;
 import com.mercado.quincho.request.RegisterRequest;
 import com.mercado.quincho.response.AuthResponse;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -76,7 +70,7 @@ public class UserService {
                 user.setPassword(passwordEncoder.encode(request.getPassword()));
                 user.setAddress(request.getAddress());
                 user.setPhoneNumber(request.getPhoneNumber());
-                user.setRole(Role.CUSTOMER);
+                user.setRole(user.getRole());
                 user.setPhoto(photoUser);
 
                 // Guarda el usuario en la base de datos.
