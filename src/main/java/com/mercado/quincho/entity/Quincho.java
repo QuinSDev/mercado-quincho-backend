@@ -22,7 +22,7 @@ import org.hibernate.annotations.GenericGenerator;
  * el identificador único, el nombre del quincho, la ubicación, descripción,
  * tipo de quincho, precio, capacidad de huéspedes, número de habitaciones,
  * número de camas, número de baños y una relación One-to-Many con fotos de
- * quincho asociadas.
+ * quincho asociadas y de reservaciones y ManyToOne con la entidad usuario.
  * 
  * @author QuinSDev
  */
@@ -53,10 +53,22 @@ public class Quincho implements Serializable{
     @JsonManagedReference
     private List<PhotoQuincho> photos;
     
+    @OneToMany
+    @JoinColumn(name = "quincho_id")
+    @JsonManagedReference
+    private List<Reservation> reservations;
+    
     @ManyToOne
     @JsonBackReference
     private User user;
     
+    /**
+     * Método que devuelve una representación en String del objeto Quincho.
+     * Muestra el ID y el nombre del Quincho, evitando imprimir la lista de fotos
+     * para evitar una posible recursión.
+     * 
+     * @return String que representa el objeto Quincho.
+     */
     @Override
     public String toString() {
         return "Quincho{" +
