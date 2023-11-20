@@ -27,7 +27,8 @@ import org.springframework.security.core.userdetails.UserDetails;
  * Esta clase define la estructura de un usuario, incluyendo sus atributos
  * como nombre, apellido, dirección, número de teléfono, correco eletrónico, rol
  * y contraseña. También se relaciona con una foto de perfil a través de una 
- * relación de uno a uno.
+ * relación de uno a uno y con quinchos y reservas a través de una relación
+ * de uno a muchos(One-To-Many)
  * 
  * Implementa la interfaz UserDetails de Spring Secuiry para habilitar la 
  * autenticación y autorización de usuarios en la aplicación.
@@ -67,6 +68,11 @@ public class User implements UserDetails{
     @JoinColumn(name = "user_id")
     @JsonManagedReference
     private List<Quincho> quincho;
+    
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference
+    private List<Reservation> reservation;
     
     /* Métodos requeridos por UserDetails para la autenticación y autorización
     de Spring Security */
