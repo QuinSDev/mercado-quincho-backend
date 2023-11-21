@@ -18,11 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Servicio encargado de gestionar las operaciones relacionadas con las reservas.
- * Proporciona métodos para crear, actualizar, listar y eliminar reservas,
- * además de realizar validaciones de datos antes de llevar a cabo operaciones
- * de registro o modificación.
- * 
+ * Servicio encargado de gestionar las operaciones relacionadas con las
+ * reservas. Proporciona métodos para crear, actualizar, listar y eliminar
+ * reservas, además de realizar validaciones de datos antes de llevar a cabo
+ * operaciones de registro o modificación.
+ *
  * @author monte
  * @author QuinSDev
  */
@@ -38,19 +38,23 @@ public class ReservationService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserService userService;
+
     /**
-     * Crea una reserva a partir de la información proporcionada en la solicitud.
-     * Realiza validaciones de datos, busca el usuario y quincho asociados y
-     * guarda la reserva en la base de datos.
-     * 
+     * Crea una reserva a partir de la información proporcionada en la
+     * solicitud. Realiza validaciones de datos, busca el usuario y quincho
+     * asociados y guarda la reserva en la base de datos.
+     *
      * @param request: Datos de la reserva a crear
      * @param idUser: Identificador del usuario que realiza la reserva
      * @param idQuincho: Identificador del quincho reservado
-     * @return Objeto QuinchoResponse con un mensaje indicando el resultado de la operación
+     * @return Objeto QuinchoResponse con un mensaje indicando el resultado de
+     * la operación
      */
     @Transactional
     public QuinchoResponse createReservation(ReservationRequest request,
-             String idUser, String idQuincho) {
+            String idUser, String idQuincho) {
 
         try {
             Optional<User> responseUser = userRepository.findByEmail(idUser);
@@ -73,12 +77,13 @@ public class ReservationService {
                     reservation.setTotalPayment(request.getTotalPayment());
                     reservation.setUser(user);
                     reservation.setQuincho(quincho);
+
+                    user.getReservation().add(reservation);
+                    quincho.getReservations().add(reservation);
                     
                     reservationRepository.save(reservation);
-                    
-                    List<Reservation> reservationList = new ArrayList();
-                    reservationList.add(reservation);
-                    user.setReservation(reservationList);
+                    userRepository.save(user);
+                    quinchoRepository.save(quincho);
 
                     return QuinchoResponse.builder()
                             .msg("Tu reserva fue exitosa")
@@ -91,6 +96,25 @@ public class ReservationService {
             return QuinchoResponse.builder()
                     .msg("Error al reservar: " + ex.getMessage())
                     .build();
+        }
+        return null;
+    }
+
+    @Transactional
+    public List<Reservation> listReservationUser(String idUser) {
+        User user = userService.getOne(idUser);
+
+        List<Reservation> reservations = user.getReservation();
+        System.out.println("rese: " + reservations);
+        return reservations;
+    }
+
+    public Quincho finQuinchoByReservationId(String idReservation) {
+        Optional<Reservation> reservationOptional = reservationRepository.
+                findByIdReservation(idReservation);
+        if (reservationOptional.isPresent()) {
+            Reservation reservation = reservationOptional.get();
+            return reservation.getQuincho();
         }
         return null;
     }

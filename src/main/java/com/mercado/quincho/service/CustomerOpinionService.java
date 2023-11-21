@@ -17,13 +17,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CustomerOpinionService {
-    private final CustomerOpinionRepository customerOpinionRepository;
+    //private final CustomerOpinionRepository customerOpinionRepository;
 
-    @Autowired
+    /*@Autowired
     public CustomerOpinionService(CustomerOpinionRepository 
            customerOpinionRepository) {
         this.customerOpinionRepository = customerOpinionRepository;
-    }
+    }*/
 
     /**
      * Busca una opinión de cliente por su ID.
@@ -32,11 +32,11 @@ public class CustomerOpinionService {
      * @return Un Optional que contiene la CustomerOpinion si se encuentra, 
      * o vacío si no se encuentra.
      */
-    public Optional<CustomerOpinion> findCustomerOpinionById
+    /*public Optional<CustomerOpinion> findCustomerOpinionById
         (String idCustomerOpinion) {
         return customerOpinionRepository.findByIdCustomerOpinion
         (idCustomerOpinion);
-    }
+    }*/
 
     /**
      * Busca opiniones de clientes por su puntuación (qualification).
@@ -46,10 +46,10 @@ public class CustomerOpinionService {
      * @return Una lista de CustomerOpinion que coinciden con la puntuación 
      * proporcionada.
      */
-    public List<CustomerOpinion> findCustomerOpinionsByQualification
+    /*public List<CustomerOpinion> findCustomerOpinionsByQualification
         (int qualification) {
         return customerOpinionRepository.findByQualification(qualification);
-    }
+    }*/
 
     /**
      * Guarda una nueva CustomerOpinion o actualiza una existente.
@@ -57,17 +57,17 @@ public class CustomerOpinionService {
      * @param customerOpinion La CustomerOpinion a guardar o actualizar.
      * @return La CustomerOpinion guardada o actualizada.
      */
-    public CustomerOpinion saveCustomerOpinion(CustomerOpinion customerOpinion){
+    /*public CustomerOpinion saveCustomerOpinion(CustomerOpinion customerOpinion){
         return customerOpinionRepository.save(customerOpinion);
-    }
+    }*/
 
     /**
      * Elimina una CustomerOpinion por su ID.
      *
      * @param idCustomerOpinion El ID de la opinión del cliente a eliminar.
      */
-    public void deleteCustomerOpinionById(String idCustomerOpinion) {
+    /*public void deleteCustomerOpinionById(String idCustomerOpinion) {
         customerOpinionRepository.deleteByIdCustomerOpinion(idCustomerOpinion);
-    }
+    }*/
     
 }

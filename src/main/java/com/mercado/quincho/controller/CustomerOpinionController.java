@@ -25,13 +25,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/customer-opinions")
 public class CustomerOpinionController {
-     private final CustomerOpinionService customerOpinionService;
+    /*
+    private final CustomerOpinionService customerOpinionService;
 
     @Autowired
     public CustomerOpinionController(CustomerOpinionService 
            customerOpinionService) {
         this.customerOpinionService = customerOpinionService;
-    }
+    }*/
 
     /**
      * Obtiene una opinión de cliente por su ID.
@@ -40,11 +41,11 @@ public class CustomerOpinionController {
      * @return Un Optional que contiene la CustomerOpinion si se 
      * encuentra, o vacío si no se encuentra.
      */
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public Optional<CustomerOpinion> getCustomerOpinionById(@PathVariable
            String id) {
         return customerOpinionService.findCustomerOpinionById(id);
-    }
+    }*/
 
     /**
      * Obtiene opiniones de clientes por su puntuación (qualification).
@@ -54,7 +55,7 @@ public class CustomerOpinionController {
      * @return Una lista de CustomerOpinion que coinciden con la 
      * puntuación proporcionada.
      */
-    @GetMapping("/by-qualification/{qualification}")
+    /*@GetMapping("/by-qualification/{qualification}")
     public List<CustomerOpinion> getCustomerOpinionsByQualification
         (@PathVariable int qualification) {
         return customerOpinionService.findCustomerOpinionsByQualification
@@ -67,7 +68,7 @@ public class CustomerOpinionController {
      * @param customerOpinion La CustomerOpinion a agregar.
      * @return La CustomerOpinion agregada.
      */
-    @PostMapping
+    /*@PostMapping
     public CustomerOpinion addCustomerOpinion(@RequestBody CustomerOpinion 
            customerOpinion) {
         return customerOpinionService.saveCustomerOpinion(customerOpinion);
@@ -78,8 +79,8 @@ public class CustomerOpinionController {
      *
      * @param id El ID de la opinión del cliente a eliminar.
      */
-    @DeleteMapping("/{id}")
+    /*@DeleteMapping("/{id}")
     public void deleteCustomerOpinion(@PathVariable String id) {
         customerOpinionService.deleteCustomerOpinionById(id);
-    }
+    }*/
 }

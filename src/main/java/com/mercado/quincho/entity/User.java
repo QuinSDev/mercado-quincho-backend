@@ -74,6 +74,15 @@ public class User implements UserDetails{
     @JsonManagedReference
     private List<Reservation> reservation;
     
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", nameUser='" + name + '\'' +
+                // No imprimimos 'photos' para evitar la recursión
+                '}';
+    }
+    
     /* Métodos requeridos por UserDetails para la autenticación y autorización
     de Spring Security */
     

@@ -22,7 +22,7 @@ public interface MultimediaOpinionRepository {
      * @param multimediaOpinion La opinión multimedia a almacenar.
      * @return La opinión multimedia almacenada.
      */
-    MultimediaOpinion save(MultimediaOpinion multimediaOpinion);
+    //MultimediaOpinion save(MultimediaOpinion multimediaOpinion);
 
     /**
      * Recupera una opinión multimedia por su identificador único.
@@ -31,7 +31,7 @@ public interface MultimediaOpinionRepository {
      * multimedia.
      * @return La opinión multimedia correspondiente al identificador dado.
      */
-    MultimediaOpinion findById(String idMultimediaOpinion);
+    //MultimediaOpinion findById(String idMultimediaOpinion);
 
     /**
      * Actualiza una opinión multimedia existente en el repositorio.
@@ -39,7 +39,7 @@ public interface MultimediaOpinionRepository {
      * @param multimediaOpinion La opinión multimedia actualizada.
      * @return La opinión multimedia después de la actualización.
      */
-    MultimediaOpinion update(MultimediaOpinion multimediaOpinion);
+    //MultimediaOpinion update(MultimediaOpinion multimediaOpinion);
 
     /**
      * Elimina una opinión multimedia del repositorio por su identificador
@@ -48,6 +48,6 @@ public interface MultimediaOpinionRepository {
      * @param idMultimediaOpinion El identificador único de la opinión 
      * multimedia a eliminar.
      */
-    void deleteById(String idMultimediaOpinion);
+    //void deleteById(String idMultimediaOpinion);
     
 }

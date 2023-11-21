@@ -73,13 +73,11 @@ public class QuinchoService {
                 quincho.setPrice(request.getPrice());
                 quincho.setPhotos(photoQuincho);
                 quincho.setUser(user);
-
-                quinchoRepository.save(quincho);
-
-                List<Quincho> quinchoList = new ArrayList<>();
-                quinchoList.add(quincho);
-                user.setQuincho(quinchoList);
+                user.getQuincho().add(quincho);
                 user.setRole(Role.OWNER);
+                
+                quinchoRepository.save(quincho);
+                userRepository.save(user);
 
                 return QuinchoResponse.builder()
                         .msg("Registro éxitoso")
@@ -182,7 +180,7 @@ public class QuinchoService {
         User user = userService.getOne(id);
 
         List<Quincho> quinchos = user.getQuincho();
-
+        
         return quinchos;
     }
 

@@ -50,5 +50,14 @@ public class Reservation {
     @ManyToOne
     @JsonBackReference
     private Quincho quincho;
+    
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id='" + idReservation + '\'' +
+                ", fechaIngreso='" + startDate + '\'' +
+                // No imprimimos 'photos' para evitar la recursión
+                '}';
+    }
 
 }

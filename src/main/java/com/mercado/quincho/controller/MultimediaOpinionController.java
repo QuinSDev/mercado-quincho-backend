@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/opinions")
 public class MultimediaOpinionController {
 
-    @Autowired
-    private MultimediaOpinionService multimediaOpinionService;
+    //@Autowired
+    //private MultimediaOpinionService multimediaOpinionService;
 
     /**
      * Endpoint para guardar una nueva opinión multimedia.
@@ -37,13 +37,13 @@ public class MultimediaOpinionController {
      * @param multimediaOpinion La opinión multimedia a almacenar.
      * @return La respuesta con la opinión multimedia almacenada.
      */
-    @PostMapping
+    /*@PostMapping
     public ResponseEntity<MultimediaOpinion> saveOpinion(@RequestBody 
             MultimediaOpinion multimediaOpinion) {
         MultimediaOpinion savedOpinion = multimediaOpinionService.saveOpinion
         (multimediaOpinion);
         return new ResponseEntity<>(savedOpinion, HttpStatus.CREATED);
-    }
+    }*/
 
     /**
      * Endpoint para obtener una opinión multimedia por su identificador único.
@@ -53,13 +53,13 @@ public class MultimediaOpinionController {
      * @return La respuesta con la opinión multimedia correspondiente al 
      * identificador dado.
      */
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public ResponseEntity<MultimediaOpinion> getOpinionById(@PathVariable String
             idMultimediaOpinion) {
         MultimediaOpinion opinion = multimediaOpinionService.getOpinionById
         (idMultimediaOpinion);
         return new ResponseEntity<>(opinion, HttpStatus.OK);
-    }
+    }*/
 
     /**
      * Endpoint para actualizar una opinión multimedia existente.
@@ -68,13 +68,13 @@ public class MultimediaOpinionController {
      * @return La respuesta con la opinión multimedia después de la 
      * actualización.
      */
-    @PutMapping
+    /*@PutMapping
     public ResponseEntity<MultimediaOpinion> updateOpinion(@RequestBody 
             MultimediaOpinion multimediaOpinion) {
         MultimediaOpinion updatedOpinion = multimediaOpinionService.
             updateOpinion(multimediaOpinion);
         return new ResponseEntity<>(updatedOpinion, HttpStatus.OK);
-    }
+    }*/
 
     /**
      * Endpoint para eliminar una opinión multimedia por su identificador único.
@@ -83,11 +83,11 @@ public class MultimediaOpinionController {
      * multimedia a eliminar.
      * @return La respuesta indicando el éxito de la operación.
      */
-    @DeleteMapping("/{id}")
+    /*@DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOpinionById(@PathVariable String 
             idMultimediaOpinion) {
         multimediaOpinionService.deleteOpinionById(idMultimediaOpinion);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+    }*/
 
 }

@@ -28,7 +28,7 @@ public interface CustomerOpinionRepository extends JpaRepository<CustomerOpinion
      * @return Un Optional que contiene la CustomerOpinion si se encuentra, 
      * o vacío si no se encuentra.
      */
-    Optional<CustomerOpinion> findByIdCustomerOpinion(String idCustomerOpinion);
+    //Optional<CustomerOpinion> findByIdCustomerOpinion(String idCustomerOpinion);
 
     /**
      * Busca opiniones de clientes por su puntuación (qualification).
@@ -38,7 +38,7 @@ public interface CustomerOpinionRepository extends JpaRepository<CustomerOpinion
      * @return Una lista de CustomerOpinion que coinciden con la puntuación 
      * proporcionada.
      */
-    List<CustomerOpinion> findByQualification(int qualification);
+    //List<CustomerOpinion> findByQualification(int qualification);
 
     /**
      * Guarda una nueva CustomerOpinion o actualiza una existente.
@@ -47,12 +47,12 @@ public interface CustomerOpinionRepository extends JpaRepository<CustomerOpinion
      * @param <S>            Tipo de la entidad CustomerOpinion.
      * @return La CustomerOpinion guardada o actualizada.
      */    
-    <S extends CustomerOpinion> S save(S customerOpinion);
+    //<S extends CustomerOpinion> S save(S customerOpinion);
 
     /**
      * Elimina una CustomerOpinion por su ID.
      *
      * @param idCustomerOpinion El ID de la opinión del cliente a eliminar.
      */
-    void deleteByIdCustomerOpinion(String idCustomerOpinion);
+    //void deleteByIdCustomerOpinion(String idCustomerOpinion);
 }
