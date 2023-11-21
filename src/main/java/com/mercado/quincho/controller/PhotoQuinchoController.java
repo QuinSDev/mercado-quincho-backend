@@ -31,34 +31,29 @@ public class PhotoQuinchoController {
     private final QuinchoService quinchoService;
     
     /**
-     * Obtiene las fotos de un quincho identificado por su ID.
-     * 
-     * @param id: El ID único del quincho del que se quiere obtener las fotos.
-     * @return ResponsityEntity con las fotos del quinchos en formato arreglo
-     * de bytes.
+     * Obtiene una foto específica de un Quincho según su ID y su índice.
+     *
+     * @param id:     ID del Quincho del cual se quiere obtener la foto.
+     * @param index:  Índice de la foto deseada dentro de las fotos del Quincho.
+     * @return       Respuesta con la foto del Quincho o un estado de error si no se encuentra.
      */
-    @GetMapping("/fotos/{id}")
-    public ResponseEntity<byte[]> getQuinchoPhotos(@PathVariable String id) {
-        
+    @GetMapping("/fotos/{id}/{index}")
+    public ResponseEntity<byte[]> getQuinchoPhoto(@PathVariable String id, @PathVariable int index) {
         Optional<Quincho> quincho = quinchoService.getOne(id);
 
         if (quincho.isPresent()) {
-            
             List<PhotoQuincho> quinchoPhotos = quincho.get().getPhotos();
 
-            if (!quinchoPhotos.isEmpty()) {
-                PhotoQuincho quinchoPhoto = quinchoPhotos.get(0);
-                
-                // Configura los encabezados para la respuesta HTTP
+            if (!quinchoPhotos.isEmpty() && index >= 0 && index < quinchoPhotos.size()) {
+                PhotoQuincho quinchoPhoto = quinchoPhotos.get(index);
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.IMAGE_JPEG);
 
-                return new ResponseEntity<>(quinchoPhoto.getContent(), headers, 
-                        HttpStatus.OK);
+                return new ResponseEntity<>(quinchoPhoto.getContent(), headers, HttpStatus.OK);
             }
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
+   
 }
