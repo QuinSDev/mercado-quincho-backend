@@ -2,6 +2,7 @@ package com.mercado.quincho.controller;
 
 import com.mercado.quincho.entity.Quincho;
 import com.mercado.quincho.entity.Reservation;
+import com.mercado.quincho.entity.User;
 import com.mercado.quincho.request.ReservationRequest;
 import com.mercado.quincho.response.QuinchoResponse;
 import com.mercado.quincho.service.ReservationService;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,10 +57,34 @@ public class ReservationController {
         return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
     
+    @GetMapping(value = "/quincho-reservations/{idUser}")
+    public ResponseEntity<List<Reservation>> getListReservations(@PathVariable
+    String idUser) {
+        List<Reservation> reservations = reservationService.listReservations(idUser);
+        return new ResponseEntity<>(reservations, HttpStatus.OK);
+    }
+    
     @GetMapping(value = "/quincho/{idReservation}")
-    public ResponseEntity<Quincho> getQuincho(@PathVariable String idReservation) {
+    public ResponseEntity<Quincho> getQuinchoReservation(@PathVariable String idReservation) {
         Quincho quincho = reservationService.finQuinchoByReservationId(idReservation);
         return new ResponseEntity<>(quincho, HttpStatus.OK);
+    }
+    
+    @GetMapping(value = "/user-reservations/{idReservation}")
+    public ResponseEntity<User> getUserReservation(@PathVariable String idReservation) {
+        User user = reservationService.finUserByReservationId(idReservation);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+    
+    @PostMapping(value = "/update/{idReservation}")
+    public ResponseEntity<QuinchoResponse> updateReservation(ReservationRequest
+            request, @PathVariable String idReservation) {
+        return ResponseEntity.ok(reservationService.updateReservation(idReservation, request));
+    }
+    
+    @DeleteMapping(value = "delete/{idReservation}")
+    public void deleteReservation(@PathVariable String idReservation) {
+        reservationService.deleteReservation(idReservation);
     }
     
 }
