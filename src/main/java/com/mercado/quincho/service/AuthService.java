@@ -82,7 +82,7 @@ public class AuthService {
                 .orElseThrow();
 
         // Genera un token de autenticación y lo devuelve.
-        String token = jwtService.getToken(user);
+        String token = jwtService.getToken(user, (User) user);
         return AuthResponse.builder()
                 .token(token)
                 .build();
@@ -120,6 +120,7 @@ public class AuthService {
                     .password(passwordEncoder.encode(request.getPassword()))
                     .address(request.getAddress())
                     .phoneNumber(request.getPhoneNumber())
+                    .active(true)
                     .role(Role.CUSTOMER)
                     .photo(photoUser)
                     .build();
@@ -130,7 +131,7 @@ public class AuthService {
             // Devuelve el token de auntenticación para el usuario registrado.
             return AuthResponse.builder()
                     .msg("¡Te registraste exitosamente!")
-                    .token(jwtService.getToken(user))
+                    .token(jwtService.getToken(user, user))
                     .build();
 
         } catch (MyException ex) {

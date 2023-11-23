@@ -8,6 +8,7 @@ import com.mercado.quincho.request.RegisterRequest;
 import com.mercado.quincho.response.AuthResponse;
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +80,7 @@ public class UserService {
                 // Devuelve el token de auntenticación para el usuario registrado.
                 return AuthResponse.builder()
                         .msg("¡Actualizastes correctamente tus datos!")
-                        .token(jwtService.getToken(user))
+                        .token(jwtService.getToken(user, user))
                         .build();
             }
 
@@ -90,6 +91,20 @@ public class UserService {
                     .build();
         }
         return null;
+    }
+    
+    public void disableUser(String userId) {
+        // Lógica para deshabilitar al usuario con el ID proporcionado
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+        user.setActive(false); // Suponiendo que el campo que controla la activación es "active"
+        userRepository.save(user);
+    }
+    
+    public void activateUser(String userId) {
+        // Lógica para deshabilitar al usuario con el ID proporcionado
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+        user.setActive(true); // Suponiendo que el campo que controla la activación es "active"
+        userRepository.save(user);
     }
 
     /**

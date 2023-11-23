@@ -52,6 +52,9 @@ public class SecurityConfiguration {
                         sean accesibles sin autenticación. */
                         .antMatchers("/auth/**").permitAll()
                         .antMatchers("/quincho/lista-quinchos").permitAll()
+                        .antMatchers("/customer-opinions/quincho/**").permitAll()
+                        .antMatchers("/customer-opinions/user/**").permitAll()
+                        .antMatchers("/photo/perfil/**").permitAll()
                         .antMatchers("/quinchos/**").permitAll()
                         // Requiere autenticación para cualquier otra solicitud.
                         .anyRequest().authenticated()
