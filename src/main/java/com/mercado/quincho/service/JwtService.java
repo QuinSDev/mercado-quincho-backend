@@ -1,5 +1,6 @@
 package com.mercado.quincho.service;
 
+import com.mercado.quincho.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -9,10 +10,8 @@ import java.security.Key;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -36,8 +35,8 @@ public class JwtService {
      * el token.
      * @return El token generado.
      */
-    public String getToken(UserDetails user) {
-        return getToken(new HashMap<>(), user);
+    public String getToken(UserDetails user, User user1) {
+        return getToken(new HashMap<>(), user, user1);
     }
 
     /**
@@ -49,7 +48,9 @@ public class JwtService {
      * el token.
      * @return El token JWT generado con las reclamaciones específicas.
      */
-    public String getToken(Map<String, Object> extraClaims, UserDetails user) {
+    public String getToken(Map<String, Object> extraClaims, UserDetails user, User
+            user1) {
+        
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
         String role = authorities.stream()
                 .map(GrantedAuthority::getAuthority)
@@ -58,6 +59,7 @@ public class JwtService {
 
         // Agrega el rol a los extraClaims
         extraClaims.put("role", role);
+        extraClaims.put("active", isActive(user1));
 
         return Jwts
                 .builder()
@@ -68,7 +70,11 @@ public class JwtService {
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
-
+    
+    private boolean isActive(User user) {
+        return user.isActive();
+    }
+    
     /**
      * Obtiene la clave secreta utilizada para firmar tokens JWT a partir de una
      * clave en formato base64.
@@ -159,4 +165,6 @@ public class JwtService {
     private boolean isTokenExpiration(String token) {
         return getExpiration(token).before(new Date());
     }
+
+    
 }

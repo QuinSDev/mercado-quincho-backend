@@ -51,4 +51,22 @@ public class UserController {
         return ResponseEntity.ok(userService.updateUser(request));
     }
     
+    
+     /**
+     * Deshabilita a un usuario por su ID.
+     * 
+     * @param id: El ID único del usuario que se desea deshabilitar.
+     * @return ResponseEntity con la respuesta de la deshabilitación del usuario.
+     */
+    @PostMapping(value = "disable/{id}")
+    public ResponseEntity<String> disableUser(@PathVariable String id) {
+        userService.disableUser(id);
+        return ResponseEntity.ok("Usuario deshabilitado exitosamente");
+    }
+    
+    @PostMapping(value = "activate/{id}")
+    public ResponseEntity<String> activateUser(@PathVariable String id) {
+        userService.activateUser(id);
+        return ResponseEntity.ok("Usuario deshabilitado exitosamente");
+    }
 }

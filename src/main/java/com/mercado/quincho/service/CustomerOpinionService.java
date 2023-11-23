@@ -81,5 +81,18 @@ public class CustomerOpinionService {
         }
         return null;
     }
+    
+    @Transactional
+    public User getUserComentary(String idComentary) {
+        Optional<CustomerOpinion> responseC = customerOpinionRepository.findById(idComentary);
+        
+        if (responseC.isPresent()) {
+            CustomerOpinion customerOpinion = responseC.get();
+            
+            User user = customerOpinion.getUser();
+            return user;
+        }
+        return null;
+    }
 
 }

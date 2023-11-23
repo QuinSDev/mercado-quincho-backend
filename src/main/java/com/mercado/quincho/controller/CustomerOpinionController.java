@@ -5,6 +5,7 @@
 package com.mercado.quincho.controller;
 
 import com.mercado.quincho.entity.CustomerOpinion;
+import com.mercado.quincho.entity.User;
 import com.mercado.quincho.request.OpinionRequest;
 import com.mercado.quincho.response.QuinchoResponse;
 import com.mercado.quincho.service.CustomerOpinionService;
@@ -44,5 +45,15 @@ public class CustomerOpinionController {
     public ResponseEntity<List<CustomerOpinion>> getListOpinionsQuincho(@PathVariable String idQuincho)
     {
         return ResponseEntity.ok(customerOpinionService.getListOpinionsQuincho(idQuincho));
+    }
+    
+    @GetMapping(value = "user/{idComentary}")
+    public ResponseEntity<User> getUserComentary(@PathVariable String idComentary) {
+        User user = customerOpinionService.getUserComentary(idComentary);
+        if (user != null) {
+            return ResponseEntity.ok(user); // Esto devuelve el objeto User como JSON
+        } else {
+            return ResponseEntity.notFound().build(); // Devuelve un 404 si no se encuentra el usuario
+        }
     }
 }
