@@ -38,10 +38,12 @@ public class Reservation {
     private LocalDate startDate;
     private LocalDate endDate;
 
-    private LocalDateTime checkIn;
-    private LocalDateTime checkOut;
+    private String checkIn;
+    private String checkOut;
 
     private Double totalPayment;
+    
+    private int guest;
     
     @ManyToOne
     @JsonBackReference

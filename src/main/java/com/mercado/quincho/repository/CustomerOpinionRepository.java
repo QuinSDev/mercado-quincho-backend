@@ -21,38 +21,5 @@ import org.springframework.stereotype.Repository;
 public interface CustomerOpinionRepository extends JpaRepository<CustomerOpinion
         , String> {
     
-    /**
-     * Busca una CustomerOpinion por su ID.
-     *
-     * @param idCustomerOpinion El ID de la opinión del cliente a buscar.
-     * @return Un Optional que contiene la CustomerOpinion si se encuentra, 
-     * o vacío si no se encuentra.
-     */
-    //Optional<CustomerOpinion> findByIdCustomerOpinion(String idCustomerOpinion);
-
-    /**
-     * Busca opiniones de clientes por su puntuación (qualification).
-     *
-     * @param qualification La puntuación por la cual buscar opiniones de 
-     * clientes.
-     * @return Una lista de CustomerOpinion que coinciden con la puntuación 
-     * proporcionada.
-     */
-    //List<CustomerOpinion> findByQualification(int qualification);
-
-    /**
-     * Guarda una nueva CustomerOpinion o actualiza una existente.
-     *
-     * @param customerOpinion La CustomerOpinion a guardar o actualizar.
-     * @param <S>            Tipo de la entidad CustomerOpinion.
-     * @return La CustomerOpinion guardada o actualizada.
-     */    
-    //<S extends CustomerOpinion> S save(S customerOpinion);
-
-    /**
-     * Elimina una CustomerOpinion por su ID.
-     *
-     * @param idCustomerOpinion El ID de la opinión del cliente a eliminar.
-     */
-    //void deleteByIdCustomerOpinion(String idCustomerOpinion);
+    Optional<CustomerOpinion> findById(String idCustomerOpinion);
 }

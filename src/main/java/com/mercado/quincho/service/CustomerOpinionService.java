@@ -1,13 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mercado.quincho.service;
 
 import com.mercado.quincho.entity.CustomerOpinion;
+import com.mercado.quincho.entity.Quincho;
+import com.mercado.quincho.entity.User;
 import com.mercado.quincho.repository.CustomerOpinionRepository;
+import com.mercado.quincho.repository.QuinchoRepository;
+import com.mercado.quincho.repository.UserRepository;
+import com.mercado.quincho.request.OpinionRequest;
+import com.mercado.quincho.response.QuinchoResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,58 +21,65 @@ import org.springframework.stereotype.Service;
  * @author EdwarVelasquez
  */
 @Service
+@RequiredArgsConstructor
 public class CustomerOpinionService {
-    //private final CustomerOpinionRepository customerOpinionRepository;
 
-    /*@Autowired
-    public CustomerOpinionService(CustomerOpinionRepository 
-           customerOpinionRepository) {
-        this.customerOpinionRepository = customerOpinionRepository;
-    }*/
+    @Autowired
+    private final CustomerOpinionRepository customerOpinionRepository;
+    @Autowired
+    private final UserRepository userRepository;
+    @Autowired
+    private final QuinchoRepository quinchoRepository;
 
-    /**
-     * Busca una opinión de cliente por su ID.
-     *
-     * @param idCustomerOpinion El ID de la opinión del cliente a buscar.
-     * @return Un Optional que contiene la CustomerOpinion si se encuentra, 
-     * o vacío si no se encuentra.
-     */
-    /*public Optional<CustomerOpinion> findCustomerOpinionById
-        (String idCustomerOpinion) {
-        return customerOpinionRepository.findByIdCustomerOpinion
-        (idCustomerOpinion);
-    }*/
+    @Transactional
+    public QuinchoResponse registerOpinion(String idUser, String idQuincho, OpinionRequest request) {
+        try {
+            Optional<User> responseUser = userRepository.findByEmail(idUser);
 
-    /**
-     * Busca opiniones de clientes por su puntuación (qualification).
-     *
-     * @param qualification La puntuación por la cual buscar opiniones de 
-     * clientes.
-     * @return Una lista de CustomerOpinion que coinciden con la puntuación 
-     * proporcionada.
-     */
-    /*public List<CustomerOpinion> findCustomerOpinionsByQualification
-        (int qualification) {
-        return customerOpinionRepository.findByQualification(qualification);
-    }*/
+            if (responseUser.isPresent()) {
 
-    /**
-     * Guarda una nueva CustomerOpinion o actualiza una existente.
-     *
-     * @param customerOpinion La CustomerOpinion a guardar o actualizar.
-     * @return La CustomerOpinion guardada o actualizada.
-     */
-    /*public CustomerOpinion saveCustomerOpinion(CustomerOpinion customerOpinion){
-        return customerOpinionRepository.save(customerOpinion);
-    }*/
+                Optional<Quincho> responseQuincho = quinchoRepository.findById(idQuincho);
 
-    /**
-     * Elimina una CustomerOpinion por su ID.
-     *
-     * @param idCustomerOpinion El ID de la opinión del cliente a eliminar.
-     */
-    /*public void deleteCustomerOpinionById(String idCustomerOpinion) {
-        customerOpinionRepository.deleteByIdCustomerOpinion(idCustomerOpinion);
-    }*/
-    
+                if (responseQuincho.isPresent()) {
+                    User user = responseUser.get();
+                    Quincho quincho = responseQuincho.get();
+
+                    CustomerOpinion customerOpinion = new CustomerOpinion();
+
+                    customerOpinion.setComment(request.getComment());
+                    customerOpinion.setUser(user);
+                    customerOpinion.setQuincho(quincho);
+                    user.getOpinions().add(customerOpinion);
+                    quincho.getOpinions().add(customerOpinion);
+
+                    customerOpinionRepository.save(customerOpinion);
+                    userRepository.save(user);
+                    quinchoRepository.save(quincho);
+
+                    return QuinchoResponse.builder()
+                            .msg("Tu comentario fue exitoso")
+                            .build();
+                }
+            }
+        } catch (Exception e) {
+            return QuinchoResponse.builder()
+                    .msg("Error al registrar comentario: " + e.getMessage())
+                    .build();
+        }
+        return null;
+    }
+
+    @Transactional
+    public List<CustomerOpinion> getListOpinionsQuincho(String idQuincho) {
+        Optional<Quincho> responseQuincho = quinchoRepository.findById(idQuincho);
+
+        if (responseQuincho.isPresent()) {
+            Quincho quincho = responseQuincho.get();
+            List<CustomerOpinion> customerOpinions = quincho.getOpinions();
+            return customerOpinions;
+
+        }
+        return null;
+    }
+
 }

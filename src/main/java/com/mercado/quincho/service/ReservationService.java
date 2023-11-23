@@ -41,6 +41,9 @@ public class ReservationService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private QuinchoService quinchoService;
+
     /**
      * Crea una reserva a partir de la información proporcionada en la
      * solicitud. Realiza validaciones de datos, busca el usuario y quincho
@@ -72,15 +75,16 @@ public class ReservationService {
                     reservation.setStartDate(request.getStartDateAsDateTime());
                     reservation.setEndDate(request.getEndDateAsDateTime());
 
-                    reservation.setCheckIn(request.getCheckInAsDateTime());
-                    reservation.setCheckOut(request.getCheckOutAsDateTime());
+                    reservation.setCheckIn(request.getCheckIn());
+                    reservation.setCheckOut(request.getCheckOut());
                     reservation.setTotalPayment(request.getTotalPayment());
+                    reservation.setGuest(request.getGuest());
                     reservation.setUser(user);
                     reservation.setQuincho(quincho);
 
                     user.getReservation().add(reservation);
                     quincho.getReservations().add(reservation);
-                    
+
                     reservationRepository.save(reservation);
                     userRepository.save(user);
                     quinchoRepository.save(quincho);
@@ -105,16 +109,48 @@ public class ReservationService {
         User user = userService.getOne(idUser);
 
         List<Reservation> reservations = user.getReservation();
-        System.out.println("rese: " + reservations);
         return reservations;
     }
 
+    @Transactional
+    public List<Reservation> listReservations(String idUser) {
+        User user = userService.getOne(idUser);
+
+        List<Quincho> quinchos = user.getQuincho();
+        List<Reservation> reservations = new ArrayList();
+        for (Quincho quincho : quinchos) {
+            List<Reservation> quinchoReservations = quincho.getReservations();
+            reservations.addAll(quinchoReservations);
+        }
+        return reservations;
+    }
+
+    /*@Transactional
+    public List<Reservation> listReservationQuincho(String idQuincho) {
+        Optional<Quincho> responseQuincho = quinchoService.getOne(idQuincho);
+        if (responseQuincho.isPresent()) {
+            Quincho quincho = responseQuincho.get();
+            List<Reservation> reservations = quincho.getReservations();
+            return reservations;
+        }
+        return null;
+    }*/
     public Quincho finQuinchoByReservationId(String idReservation) {
         Optional<Reservation> reservationOptional = reservationRepository.
                 findByIdReservation(idReservation);
         if (reservationOptional.isPresent()) {
             Reservation reservation = reservationOptional.get();
             return reservation.getQuincho();
+        }
+        return null;
+    }
+    
+    public User finUserByReservationId(String idReservation) {
+         Optional<Reservation> reservationOptional = reservationRepository.
+                findByIdReservation(idReservation);
+        if (reservationOptional.isPresent()) {
+            Reservation reservation = reservationOptional.get();
+            return reservation.getUser();
         }
         return null;
     }
@@ -131,23 +167,34 @@ public class ReservationService {
      * @param idQuincho: Identificador del Quincho
      */
     @Transactional
-    public void updateReservation(String idReservation, ReservationRequest request) {
+    public QuinchoResponse updateReservation(String idReservation, ReservationRequest request) {
+        try {
+            Optional<Reservation> existingReservation = reservationRepository.findById(idReservation);
+            if (existingReservation.isPresent()) {
+                Reservation reservation = existingReservation.get();
+                // Actualiza los campos necesarios de la reserva , si existe
 
-        // Verifica si la reserva existe antes de actualizarla por su id
-        Optional<Reservation> existingReservation = reservationRepository.findById(idReservation);
-        if (existingReservation.isPresent()) {
-            Reservation reservation = existingReservation.get();
-            // Actualiza los campos necesarios de la reserva , si existe
+                reservation.setStartDate(request.getStartDateAsDateTime());
+                reservation.setEndDate(request.getEndDateAsDateTime());
 
-            reservation.setStartDate(request.getStartDateAsDateTime());
-            reservation.setEndDate(request.getEndDateAsDateTime());
+                reservation.setCheckIn(request.getCheckIn());
+                reservation.setCheckOut(request.getCheckOut());
+                reservation.setGuest(request.getGuest());
+                reservation.setTotalPayment(request.getTotalPayment());
 
-            reservation.setCheckIn(LocalDateTime.parse(request.getCheckInAsDateTime().toString()));
-            reservation.setCheckOut(LocalDateTime.parse(request.getCheckOutAsDateTime().toString()));
-            reservation.setTotalPayment(request.getTotalPayment());
+                reservationRepository.save(reservation);
 
-            reservationRepository.save(reservation);
+                return QuinchoResponse.builder()
+                        .msg("Tu reserva fue actualizada correctamente")
+                        .build();
+            }
+        } catch (Exception e) {
+            return QuinchoResponse.builder()
+                    .msg("Error al actualizar la reserva: " + e.getMessage())
+                    .build();
         }
+        // Verifica si la reserva existe antes de actualizarla por su id
+        return null;
     }
 
     /**
@@ -211,6 +258,11 @@ public class ReservationService {
             throw new MyException("La fecha de inicio es obligatoria.");
         }
 
+        if (request.getGuest() <= 0) {
+            throw new MyException("L cantidad de personas de no puede ser menor"
+                    + "o igual a 0");
+        }
+
         /*if (request.getStarDate().isBefore(other)) {
             throw new MyException("La fecha de inicio no puede ser anterior"
                     + "a la fecha actual.");
@@ -223,11 +275,11 @@ public class ReservationService {
             throw new MyException("La fecha finalización no puede ser anterior "
                     + "a la fecha actual.");
         }*/
-        if (request.getCheckInAsDateTime() == null) {
+        if (request.getCheckIn() == null) {
             throw new MyException("La hora de entrada es obligatoria.");
         }
 
-        if (request.getCheckOutAsDateTime() == null) {
+        if (request.getCheckOut() == null) {
             throw new MyException("La hora de salida es obligatoria.");
         }
 
