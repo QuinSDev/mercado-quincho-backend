@@ -25,6 +25,7 @@ public class ReservationRequest {
     private String endDate;
     private String checkIn;
     private String checkOut;
+    private int guest;
     private Double totalPayment;
 
     /**

@@ -58,6 +58,11 @@ public class Quincho implements Serializable{
     @JsonManagedReference
     private List<Reservation> reservations;
     
+    @OneToMany
+    @JoinColumn(name = "customerOpinion_id")
+    @JsonManagedReference
+    private List<CustomerOpinion> opinions;
+    
     @ManyToOne
     @JsonBackReference
     private User user;

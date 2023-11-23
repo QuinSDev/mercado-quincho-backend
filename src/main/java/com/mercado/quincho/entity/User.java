@@ -74,6 +74,11 @@ public class User implements UserDetails{
     @JsonManagedReference
     private List<Reservation> reservation;
     
+    @OneToMany
+    @JoinColumn(name = "customerOpinion_id")
+    @JsonManagedReference
+    private List<CustomerOpinion> opinions;
+    
     @Override
     public String toString() {
         return "User{" +
