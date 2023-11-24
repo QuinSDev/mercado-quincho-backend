@@ -70,6 +70,31 @@ public class CustomerOpinionService {
     }
 
     @Transactional
+    public QuinchoResponse updateOpinion(String idOpinion, OpinionRequest request) {
+        try {
+            Optional<CustomerOpinion> responseC = customerOpinionRepository.findById(idOpinion);
+
+            if (responseC.isPresent()) {
+
+                CustomerOpinion customerOpinion = responseC.get();
+
+                customerOpinion.setComment(request.getComment());
+
+                customerOpinionRepository.save(customerOpinion);
+
+                return QuinchoResponse.builder()
+                        .msg("Tu comentario fue actualizado con éxtio")
+                        .build();
+            }
+        } catch (Exception e) {
+            return QuinchoResponse.builder()
+                    .msg("Error al actualizar comentario: " + e.getMessage())
+                    .build();
+        }
+        return null;
+    }
+
+    @Transactional
     public List<CustomerOpinion> getListOpinionsQuincho(String idQuincho) {
         Optional<Quincho> responseQuincho = quinchoRepository.findById(idQuincho);
 
@@ -81,18 +106,54 @@ public class CustomerOpinionService {
         }
         return null;
     }
-    
+
     @Transactional
     public User getUserComentary(String idComentary) {
         Optional<CustomerOpinion> responseC = customerOpinionRepository.findById(idComentary);
-        
+
         if (responseC.isPresent()) {
             CustomerOpinion customerOpinion = responseC.get();
-            
+
             User user = customerOpinion.getUser();
             return user;
         }
         return null;
+    }
+
+    @Transactional
+    public Quincho getQuinchoComentary(String idComentary) {
+        Optional<CustomerOpinion> responseC = customerOpinionRepository.findById(idComentary);
+
+        if (responseC.isPresent()) {
+            CustomerOpinion customerOpinion = responseC.get();
+
+            Quincho quincho = customerOpinion.getQuincho();
+            return quincho;
+        }
+        return null;
+    }
+
+    @Transactional
+    public List<CustomerOpinion> getComentariesUser(String idUser) {
+        Optional<User> responseUser = userRepository.findByEmail(idUser);
+
+        if (responseUser.isPresent()) {
+            User user = responseUser.get();
+            List<CustomerOpinion> customerOpinion = user.getOpinions();
+            return customerOpinion;
+        }
+        return null;
+    }
+
+    @Transactional
+    public void deleteComentary(String idOpinion) {
+        customerOpinionRepository.deleteById(idOpinion);
+    }
+
+    public List<CustomerOpinion> listOpinions() {
+        List<CustomerOpinion> opinions = customerOpinionRepository.findAll();
+        
+        return opinions;
     }
 
 }

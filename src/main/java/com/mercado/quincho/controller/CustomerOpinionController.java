@@ -5,6 +5,7 @@
 package com.mercado.quincho.controller;
 
 import com.mercado.quincho.entity.CustomerOpinion;
+import com.mercado.quincho.entity.Quincho;
 import com.mercado.quincho.entity.User;
 import com.mercado.quincho.request.OpinionRequest;
 import com.mercado.quincho.response.QuinchoResponse;
@@ -41,6 +42,12 @@ public class CustomerOpinionController {
         return ResponseEntity.ok(customerOpinionService.registerOpinion(idUser, idQuincho, request));
     }
     
+    @PostMapping(value = "update/{idOpinion}")
+    public ResponseEntity<QuinchoResponse> updateOpinion(OpinionRequest request, 
+            @PathVariable String idOpinion) {
+        return ResponseEntity.ok(customerOpinionService.updateOpinion(idOpinion, request));
+    }
+    
     @GetMapping(value = "quincho/{idQuincho}")
     public ResponseEntity<List<CustomerOpinion>> getListOpinionsQuincho(@PathVariable String idQuincho)
     {
@@ -55,5 +62,22 @@ public class CustomerOpinionController {
         } else {
             return ResponseEntity.notFound().build(); // Devuelve un 404 si no se encuentra el usuario
         }
+    }
+    
+    @GetMapping(value = "comentary/user/{idUser}")
+    public ResponseEntity<List<CustomerOpinion>> getComentariesUser(@PathVariable String
+            idUser) {
+        return ResponseEntity.ok(customerOpinionService.getComentariesUser(idUser));
+    }
+    
+    @GetMapping(value = "comentary/quincho/{idOpinion}")
+    public ResponseEntity<Quincho> getQuinchoComentary(@PathVariable String idOpinion) {
+        return ResponseEntity.ok(customerOpinionService.getQuinchoComentary(idOpinion));
+    }
+    
+    
+    @DeleteMapping(value = "delete/{idOpinion}")
+    public void deleteComentary(@PathVariable String idOpinion) {
+        customerOpinionService.deleteComentary(idOpinion);
     }
 }

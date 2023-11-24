@@ -1,6 +1,8 @@
 package com.mercado.quincho.controller;
 
+import com.mercado.quincho.entity.CustomerOpinion;
 import com.mercado.quincho.entity.User;
+import com.mercado.quincho.service.CustomerOpinionService;
 import com.mercado.quincho.service.UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,9 @@ public class AdminController {
     @Autowired
     private final UserService userService;
     
+    @Autowired
+     private final CustomerOpinionService customerOpinionService;       
+    
     /**
      * Obtiene una lista de todos los usuarios.
      * 
@@ -32,6 +37,11 @@ public class AdminController {
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.listUser();
+    }
+    
+    @GetMapping("/opinions")
+    public List<CustomerOpinion> getAllOpinions() {
+        return customerOpinionService.listOpinions();
     }
     
 }
