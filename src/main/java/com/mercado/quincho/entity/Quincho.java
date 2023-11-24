@@ -59,7 +59,7 @@ public class Quincho implements Serializable{
     private List<Reservation> reservations;
     
     @OneToMany
-    @JoinColumn(name = "customerOpinion_id")
+    @JoinColumn(name = "quincho_id")
     @JsonManagedReference
     private List<CustomerOpinion> opinions;
     

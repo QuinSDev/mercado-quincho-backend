@@ -98,7 +98,7 @@ public class ReservationService {
 
         } catch (MyException ex) {
             return QuinchoResponse.builder()
-                    .msg("Error al reservar: " + ex.getMessage())
+                    .msg("Error a reservar: " + ex.getMessage())
                     .build();
         }
         return null;
