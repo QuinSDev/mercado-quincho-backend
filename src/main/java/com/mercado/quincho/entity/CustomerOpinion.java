@@ -4,10 +4,12 @@
  */
 package com.mercado.quincho.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,8 +31,25 @@ public class CustomerOpinion {
     @GeneratedValue(generator = "uuid") 
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(length = 36) // Cambia la longitud a 36 caracteres para UUID    
-    private String idCustomerClient;
-    private String multimediaOpinion;
+    private String id;
+    
     private int qualification;
-    private String comment;    
+    private String comment;
+    
+    @ManyToOne
+    @JsonBackReference
+    private User user;
+    
+    @ManyToOne
+    @JsonBackReference
+    private Quincho quincho;
+    
+    @Override
+    public String toString() {
+        return "CustomerOpinion{" +
+                "id='" + id + '\'' +
+                ", comentario='" + comment + '\'' +
+                // No imprimimos 'photos' para evitar la recursión
+                '}';
+    }
 }

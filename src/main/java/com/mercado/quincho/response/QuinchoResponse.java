@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Clase que representa una respuesta de autenticación. Contiene un token de
- * autenticación que se genera después de un proceso de autenticación.
+ * Clase que representa la respuesta de un Quincho.
+ * Contiene un mensaje relacionado con la operación realizada.
  * 
  * @author QuinSDev
  */
@@ -15,10 +15,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthResponse {
-        
-    String token;
+public class QuinchoResponse {
+    
     String msg;
-    boolean success;
     
 }

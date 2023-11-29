@@ -38,8 +38,7 @@ public class AuthController {
      *         en caso de fallo.
      */
     @PostMapping(value = "register")
-    public ResponseEntity<AuthResponse> registerUser(@RequestBody RegisterRequest
-            request) {
+    public ResponseEntity<AuthResponse> registerUser(RegisterRequest request)  {
         return ResponseEntity.ok(authService.registerUser(request));
     }
     

@@ -41,5 +41,12 @@ public class PhotoUser {
     @Basic(fetch = FetchType.LAZY) 
     private byte[] content; 
 
-   
+    @Override
+    public String toString() {
+        return "PhotoUser{" +
+                "id='" + idPhoto + '\'' +
+                ", namePhotoUser='" + name + '\'' +
+                // No imprimimos 'photos' para evitar la recursión
+                '}';
+    }
 }

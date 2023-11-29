@@ -1,13 +1,15 @@
 package com.mercado.quincho.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +22,7 @@ import org.hibernate.annotations.GenericGenerator;
  * el identificador único, el nombre del quincho, la ubicación, descripción,
  * tipo de quincho, precio, capacidad de huéspedes, número de habitaciones,
  * número de camas, número de baños y una relación One-to-Many con fotos de
- * quincho asociadas.
+ * quincho asociadas y de reservaciones y ManyToOne con la entidad usuario.
  * 
  * @author QuinSDev
  */
@@ -34,7 +36,7 @@ public class Quincho implements Serializable{
     @GeneratedValue(generator = "uuid") 
     @GenericGenerator(name = "uuid", strategy = "uuid2") 
     @Column(length = 36) // Cambia la longitud a 36 caracteres para UUID
-    private String idQuincho;
+    private String id;
     
     private String nameQuincho;
     private String location;
@@ -46,7 +48,39 @@ public class Quincho implements Serializable{
     private int numBed;
     private int numBathroom;
     
-    @OneToMany(mappedBy = "quincho", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany
+    @JoinColumn(name = "quincho_id") 
+    @JsonManagedReference
     private List<PhotoQuincho> photos;
+    
+    @OneToMany
+    @JoinColumn(name = "quincho_id")
+    @JsonManagedReference
+    private List<Reservation> reservations;
+    
+    @OneToMany
+    @JoinColumn(name = "quincho_id")
+    @JsonManagedReference
+    private List<CustomerOpinion> opinions;
+    
+    @ManyToOne
+    @JsonBackReference
+    private User user;
+    
+    /**
+     * Método que devuelve una representación en String del objeto Quincho.
+     * Muestra el ID y el nombre del Quincho, evitando imprimir la lista de fotos
+     * para evitar una posible recursión.
+     * 
+     * @return String que representa el objeto Quincho.
+     */
+    @Override
+    public String toString() {
+        return "Quincho{" +
+                "id='" + id + '\'' +
+                ", nameQuincho='" + nameQuincho + '\'' +
+                // No imprimimos 'photos' para evitar la recursión
+                '}';
+    }
     
 }

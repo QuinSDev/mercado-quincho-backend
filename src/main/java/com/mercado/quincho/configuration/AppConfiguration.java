@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -35,6 +36,7 @@ import org.springframework.web.filter.CorsFilter;
  */
 @Configuration
 @RequiredArgsConstructor
+@CrossOrigin
 public class AppConfiguration {
     
     @Autowired
@@ -50,7 +52,7 @@ public class AppConfiguration {
         
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         
-        corsConfiguration.addAllowedOriginPattern("http://localhost:5173");
+        corsConfiguration.addAllowedOrigin("http://localhost:5173");
         
         corsConfiguration.addAllowedMethod(HttpMethod.GET);
         corsConfiguration.addAllowedMethod(HttpMethod.POST);
@@ -58,6 +60,8 @@ public class AppConfiguration {
         corsConfiguration.addAllowedMethod(HttpMethod.DELETE);
         
         corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.setAllowCredentials(true);
+
         
          /* Crea una instancia de UrlBasedCorsConfigurationSource, que se 
         utiliza para configurar CORS basado en URL */

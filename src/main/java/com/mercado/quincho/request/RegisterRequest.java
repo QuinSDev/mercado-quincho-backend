@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Clase que representa una solicitud de registro. Contiene los datos 
@@ -26,5 +27,6 @@ public class RegisterRequest {
     String lastName;
     String phoneNumber;
     String address;
+    MultipartFile file;
     
 }

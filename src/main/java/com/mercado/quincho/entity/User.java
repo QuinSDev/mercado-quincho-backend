@@ -1,5 +1,6 @@
 package com.mercado.quincho.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -25,7 +27,8 @@ import org.springframework.security.core.userdetails.UserDetails;
  * Esta clase define la estructura de un usuario, incluyendo sus atributos
  * como nombre, apellido, dirección, número de teléfono, correco eletrónico, rol
  * y contraseña. También se relaciona con una foto de perfil a través de una 
- * relación de uno a uno.
+ * relación de uno a uno y con quinchos y reservas a través de una relación
+ * de uno a muchos(One-To-Many)
  * 
  * Implementa la interfaz UserDetails de Spring Secuiry para habilitar la 
  * autenticación y autorización de usuarios en la aplicación.
@@ -43,13 +46,14 @@ public class User implements UserDetails{
     @GeneratedValue(generator = "uuid") 
     @GenericGenerator(name = "uuid", strategy = "uuid2") 
     @Column(length = 36) // Cambia la longitud a 36 caracteres para UUID
-    private String idUser; 
+    private String id; 
 
     private String name; 
     private String lastName; 
     private String address; 
     private String phoneNumber;
-
+    private boolean active;
+    
     @Email
     private String email;
     
@@ -60,6 +64,30 @@ public class User implements UserDetails{
     @OneToOne 
     @JoinColumn(name = "id_photo") 
     private PhotoUser photo; 
+    
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference
+    private List<Quincho> quincho;
+    
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference
+    private List<Reservation> reservation;
+    
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference
+    private List<CustomerOpinion> opinions;
+    
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", nameUser='" + name + '\'' +
+                // No imprimimos 'photos' para evitar la recursión
+                '}';
+    }
     
     /* Métodos requeridos por UserDetails para la autenticación y autorización
     de Spring Security */
