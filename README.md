@@ -1,6 +1,5 @@
 # Mercado Quincho - Backend
 
-## Descripción del Proyecto
 El backend de Mercado Quincho es una aplicación que proporciona una API REST para gestionar la reserva de espacios para eventos, esta permite a los propietarios de quinchos, cabañas, chalets y otros espacios para eventos, cargar sus ofertas y disponibilidad en un calendario para que los clientes puedan reservar una fecha.
 
 ## Tecnologías utilizadas
@@ -9,4 +8,5 @@ El backend de Mercado Quincho es una aplicación que proporciona una API REST pa
 - **Spring Security**: Utilizado para la autenticación y autorización en la aplicación.
 - **JWT (JSON Web Token)**: Utilizado para la gestión de sesiones de usuario y la autenticación de las solicitudes a la API.
 
-Para acceder al frontend del proyecti presiona [aquí](https://github.com/QuinSDev/mercado-quincho-frontend)
+##
+Para acceder al frontend del proyecto presiona [aquí](https://github.com/QuinSDev/mercado-quincho-frontend)
