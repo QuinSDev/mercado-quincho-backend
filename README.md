@@ -8,3 +8,5 @@ El backend de Mercado Quincho es una aplicación que proporciona una API REST pa
 - **Spring Framework**: Marco de trabajo utilizado para la creación de la aplicación y la exposición de la API REST.
 - **Spring Security**: Utilizado para la autenticación y autorización en la aplicación.
 - **JWT (JSON Web Token)**: Utilizado para la gestión de sesiones de usuario y la autenticación de las solicitudes a la API.
+
+Para acceder al frontend del proyecti presiona [aquí](https://github.com/QuinSDev/mercado-quincho-frontend)
