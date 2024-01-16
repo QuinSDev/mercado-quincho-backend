@@ -52,7 +52,7 @@ public class AppConfiguration {
         
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         
-        corsConfiguration.addAllowedOrigin("https://mercado-quincho.netlify.app/");
+        corsConfiguration.addAllowedOrigin("https://mercado-quincho.netlify.app");
         
         corsConfiguration.addAllowedMethod(HttpMethod.GET);
         corsConfiguration.addAllowedMethod(HttpMethod.POST);
